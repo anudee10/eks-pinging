@@ -1,0 +1,16 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('pinging eks') {
+            steps {
+                sh "aws eks update-kubeconfig --region us-east-1 --name eks-demo-cluster"
+                sh '''
+                  kubectl apply -f deployment.yaml
+                  kubectl apply -f service.yaml
+                  kubectl get all
+                '''
+            }
+        }
+    }
+}
